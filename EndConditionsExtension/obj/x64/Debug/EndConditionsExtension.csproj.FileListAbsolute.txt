@@ -5,7 +5,6 @@ C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x6
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Assembly-CSharp-firstpass.dll
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Assembly-CSharp-Publicized.dll
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\BouncyCastle.Cryptography.dll
-C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Caress.dll
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\CommandSystem.Core.dll
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\DnsClient.dll
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Exiled.API.dll
@@ -112,13 +111,7 @@ C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x6
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\UnityEngine.XRModule.dll
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\YamlDotNet.dll
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\zxing.dll
-C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Exiled.API.xml
-C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Exiled.CreditTags.xml
-C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Exiled.CustomItems.xml
-C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Exiled.CustomRoles.xml
-C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Exiled.Events.xml
-C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Exiled.Loader.xml
-C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\Exiled.Permissions.xml
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\obj\x64\Debug\EndConditionsExtension.csproj.CopyComplete
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\obj\x64\Debug\EndConditionsExtension.dll
 C:\Users\fedec\source\repos\EndConditionsExtension\EndConditionsExtension\obj\x64\Debug\EndConditionsExtension.pdb
+C:\Users\fedec\Source\Repos\EndConditionsExtension\EndConditionsExtension\bin\x64\Debug\EndConditionsExtension.dll.config

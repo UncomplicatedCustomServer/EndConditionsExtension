@@ -9,7 +9,7 @@ namespace EndConditionsExtension
         public override string Name => "EndConditionsExtension";
         public override string Author => "FoxWorn3365";
         public override string Prefix => "EndConditionsExtension";
-        public override Version Version => new(0, 8, 1);
+        public override Version Version => new(0, 9, 0);
         public override Version RequiredExiledVersion => new(8, 8, 0);
         public static Plugin Istance;
         internal Handler Handler;
