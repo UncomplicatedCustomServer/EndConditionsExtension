@@ -6,23 +6,23 @@ using PlayerRoles;
 using System.Collections.Generic;
 using System.Linq;
 using UncomplicatedCustomRoles.API.Features;
-using UncomplicatedCustomRoles.Structures;
+using UncomplicatedCustomRoles.Interfaces;
 
 namespace EndConditionsExtension
 {
     internal class Handler
     {
         protected LeadingTeam? Leading { get; set; } = LeadingTeam.Draw;
+
         public void OnEnding(EndingRoundEventArgs Ending)
         {
             bool CanEnd = true;
-            foreach (KeyValuePair<int, int> Element in Manager.GetAlive())
-            {
-                CanEnd = CanEnd && EvaluateEndConditions(Player.Get(Element.Key), Manager.Get(Element.Value));
-            }
-            if (Leading is not null) {
+            foreach (KeyValuePair<int, int> Element in CustomRole.Alive)
+                CanEnd = CanEnd && EvaluateEndConditions(Player.Get(Element.Key), CustomRole.Get(Element.Value));
+
+            if (Leading is not null)
                 Ending.LeadingTeam = (LeadingTeam)Leading;
-            }
+
             Ending.IsAllowed = CanEnd;
         }
         public bool EvaluateEndConditions(Player Player, ICustomRole Role)
@@ -68,9 +68,8 @@ namespace EndConditionsExtension
                 }
             } 
             else
-            {
                 return true;
-            }
+
             return false;
         }
     }
