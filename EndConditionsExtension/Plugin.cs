@@ -1,35 +1,31 @@
-﻿using Exiled.API.Features;
-using System;
-using ServerHandler = Exiled.Events.Handlers.Server;
+﻿using System;
+using LabApi.Events.Handlers;
+using LabApi.Features;
+using LabApi.Loader.Features.Plugins;
 
-namespace EndConditionsExtension
+namespace EndConditionsExtension;
+
+internal class Plugin : Plugin<Config>
 {
-    internal class Plugin : Plugin<Config>
+    public override string Name => "EndConditionsExtension";
+    public override string Description => "EndConditionsExtension";
+    public override string Author => "FoxWorn3365 && MedveMarci";
+    public override Version Version => new(1, 0, 0);
+    public override Version RequiredApiVersion { get; } = new(LabApiProperties.CompiledVersion);
+    public static Plugin Singleton;
+    private Handler _handler;
+    public override void Enable()
     {
-        public override string Name => "EndConditionsExtension";
-        public override string Author => "FoxWorn3365";
-        public override string Prefix => "EndConditionsExtension";
-        public override Version Version => new(0, 9, 0);
-        public override Version RequiredExiledVersion => new(8, 8, 0);
-        public static Plugin Istance;
-        internal Handler Handler;
-        public override void OnEnabled()
-        {
-            Istance = this;
-            Handler = new();
+        Singleton = this;
+        _handler = new Handler();
 
-            ServerHandler.EndingRound += Handler.OnEnding;
+        ServerEvents.RoundEnding += _handler.OnEnding;
+    }
+    public override void Disable()
+    {
+        ServerEvents.RoundEnding -= _handler.OnEnding;
 
-            base.OnEnabled();
-        }
-        public override void OnDisabled()
-        {
-            ServerHandler.EndingRound -= Handler.OnEnding;
-
-            Istance = null;
-            Handler = null;
-
-            base.OnDisabled();
-        }
+        Singleton = null;
+        _handler = null;
     }
 }
