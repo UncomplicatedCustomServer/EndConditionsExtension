@@ -11,7 +11,6 @@ namespace EndConditionsExtension;
 internal class Plugin : Plugin<Config>
 {
     public static Plugin Singleton;
-    private EventHandler _eventHandler;
     public override string Name => "EndConditionsExtension";
     public override string Description => "EndConditionsExtension";
     public override string Author => "FoxWorn3365 && MedveMarci";
@@ -21,7 +20,6 @@ internal class Plugin : Plugin<Config>
     public override void Enable()
     {
         Singleton = this;
-        _eventHandler = new EventHandler();
 
         ValidateConfig();
 
@@ -30,11 +28,9 @@ internal class Plugin : Plugin<Config>
 
     public override void Disable()
     {
-        if (_eventHandler is not null)
-            ServerEvents.RoundEnding -= EventHandler.OnRoundEnding;
+        ServerEvents.RoundEnding -= EventHandler.OnRoundEnding;
 
         Singleton = null;
-        _eventHandler = null;
     }
     
     internal static void Debug(string message)
