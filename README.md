@@ -29,6 +29,8 @@ Allow a team to be alive only up to a certain amount of players, cap the total a
 Tutorials and other spectator-ish roles can be excluded from the evaluation, so they can neither block nor end the round.
 ### 🥇 Priorities
 When more than one custom role meets its condition at the same time, the one with the highest priority decides the winning team.
+### 🔄 Update checker
+The same version manager used by UCR: on start the plugin asks the UCS cloud whether a newer release is out, tells you when you are running a pre-release, verifies the hash of the file you installed and warns you if that build has been recalled.
 ### 🗂️ YAML based
 Just like UCR, everything is configured through a simple `yml` file - no code needed.
 

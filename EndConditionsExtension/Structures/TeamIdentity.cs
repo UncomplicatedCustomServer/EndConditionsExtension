@@ -10,7 +10,7 @@ internal readonly struct TeamIdentity : IEquatable<TeamIdentity>
         Team = team;
         CustomTeam = customTeam;
     }
-    
+
     public Team Team { get; }
 
     public string CustomTeam { get; }

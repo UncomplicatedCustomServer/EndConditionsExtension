@@ -33,6 +33,7 @@ internal class EndCondition : IEndCondition
     [Description("Set the team who will win if this condition will be true")]
     public RoundSummary.LeadingTeam WinningTeam { get; set; } = RoundSummary.LeadingTeam.Draw;
 
-    [Description("If more than one condition is met at the same time the one with the highest priority decides the winner")]
+    [Description(
+        "If more than one condition is met at the same time the one with the highest priority decides the winner")]
     public int Priority { get; set; }
 }
