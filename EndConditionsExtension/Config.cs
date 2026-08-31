@@ -1,24 +1,17 @@
-﻿using EndConditionsExtension.Elements;
-using Exiled.API.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EndConditionsExtension.Elements;
 
-namespace EndConditionsExtension
+namespace EndConditionsExtension;
+
+internal class Config
 {
-    internal class Config : IConfig
+    [Description("Do enable the debug (developer) mode?")]
+    public bool Debug { get; set; } = false;
+
+    [Description("A list of conditions for each CustomRole - the key is the CustomRole Id")]
+    public Dictionary<int, EndCondition> EndConditions { get; set; } = new()
     {
-        [Description("Is the plugin enabled?")]
-        public bool IsEnabled { get; set; }
-        [Description("Do enable the debug (developer) mode?")]
-        public bool Debug { get; set; }
-        [Description("A list of conditions for each CustomRole")]
-        public Dictionary<int, EndCondition> EndConditions { get; set; } = new()
-        {
-            { 1, new() }
-        };
-    }
+        { 1, new EndCondition() }
+    };
 }
