@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using EndConditionsExtension.Elements;
 using EndConditionsExtension.Manager;
 using EndConditionsExtension.Manager.NET;
 using LabApi.Events.Handlers;
@@ -12,10 +14,15 @@ internal class Plugin : Plugin<Config>
 {
     public static Plugin Singleton;
     internal static HttpManager HttpManager;
+
     public override string Name => "EndConditionsExtension";
+
     public override string Description => "EndConditionsExtension";
+
     public override string Author => "FoxWorn3365 && MedveMarci";
+
     public override Version Version => new(1, 0, 0);
+
     public override Version RequiredApiVersion { get; } = new(LabApiProperties.CompiledVersion);
 
     public override void Enable()
@@ -47,9 +54,9 @@ internal class Plugin : Plugin<Config>
         if (Config.EndConditions is not { Count: > 0 })
             return;
 
-        foreach (var pair in Config.EndConditions)
+        foreach (KeyValuePair<int, EndCondition> pair in Config.EndConditions)
         {
-            var condition = pair.Value;
+            EndCondition condition = pair.Value;
 
             if (condition is null)
             {

@@ -29,7 +29,7 @@ internal static class VersionManager
     {
         try
         {
-            var data = response.Body;
+            string data = response.Body;
 
             if (string.IsNullOrWhiteSpace(data))
             {
@@ -38,7 +38,7 @@ internal static class VersionManager
                 return;
             }
 
-            var status = data.GetStatusCode(out var msg);
+            HttpStatusCode status = data.GetStatusCode(out string? msg);
             if (status is not HttpStatusCode.Unused)
             {
                 LogManager.Debug(
@@ -56,7 +56,7 @@ internal static class VersionManager
 
             if (VersionInfo.PreRelease != 0)
             {
-                var latestStable = Plugin.HttpManager.LatestStableVersion;
+                Version latestStable = Plugin.HttpManager.LatestStableVersion;
                 LogManager.Info(
                     $"\nNOTICE!\nYou are currently using the version v{Plugin.Singleton.Version}, who's a PRE-RELEASE or an EXPERIMENTAL RELEASE of EndConditionsExtension!\nLatest stable release: {(latestStable > new Version() ? $"v{latestStable}" : "unknown")}\nNOTE: This is NOT a stable version, so there can be bugs and malfunctions, for this reason we do not recommend use in production.");
                 if (VersionInfo.ForceDebug != 0 && !(Plugin.Singleton.Config?.Debug ?? true))
@@ -73,7 +73,7 @@ internal static class VersionManager
 
             CheckForUpdates();
 
-            var hash = HashFile(Plugin.Singleton.FilePath);
+            string hash = HashFile(Plugin.Singleton.FilePath);
             if (hash != VersionInfo.Hash)
                 HashNotMatchMessageSender(hash);
             else
@@ -125,7 +125,7 @@ internal static class VersionManager
 
     public static void RecallMessageSender()
     {
-        var download = Version.TryParse(VersionInfo.RecallTarget, out var target)
+        string download = Version.TryParse(VersionInfo.RecallTarget, out Version target)
             ? $"\n{Plugin.HttpManager.GetDownloadHint(target)}"
             : string.Empty;
 
@@ -136,8 +136,8 @@ internal static class VersionManager
     public static string HashFile(string path)
     {
         using FileStream file = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        using var sha = SHA256.Create();
-        var bytes = sha.ComputeHash(file);
+        using SHA256 sha = SHA256.Create();
+        byte[] bytes = sha.ComputeHash(file);
 
         return BitConverter.ToString(bytes).Replace("-", string.Empty);
     }

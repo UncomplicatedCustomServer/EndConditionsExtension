@@ -16,15 +16,6 @@ internal class HttpManager
     private const string DiscordInvite = "https://discord.gg/5StRGu8EJV";
 
     /// <summary>
-    ///     Creates a new instance of the <see cref="HttpManager" />.
-    /// </summary>
-    /// <param name="prefix">The prefix of the plugin for the UCS APIs.</param>
-    public HttpManager(string prefix)
-    {
-        Prefix = prefix;
-    }
-
-    /// <summary>
     ///     Gets the prefix of the plugin for our APIs
     /// </summary>
     public string Prefix { get; }
@@ -59,16 +50,25 @@ internal class HttpManager
     /// </summary>
     public bool IsPreRelease => IsPreReleaseVersion(Plugin.Singleton.Version);
 
+    /// <summary>
+    ///     Creates a new instance of the <see cref="HttpManager" />.
+    /// </summary>
+    /// <param name="prefix">The prefix of the plugin for the UCS APIs.</param>
+    public HttpManager(string prefix)
+    {
+        Prefix = prefix;
+    }
+
     internal static int CompareReleases(Version left, Version right)
     {
-        var release = new Version(left.Major, left.Minor, Math.Max(left.Build, 0))
+        int release = new Version(left.Major, left.Minor, Math.Max(left.Build, 0))
             .CompareTo(new Version(right.Major, right.Minor, Math.Max(right.Build, 0)));
 
         if (release != 0)
             return release;
 
-        var leftPreRelease = Math.Max(left.Revision, 0);
-        var rightPreRelease = Math.Max(right.Revision, 0);
+        int leftPreRelease = Math.Max(left.Revision, 0);
+        int rightPreRelease = Math.Max(right.Revision, 0);
 
         if (leftPreRelease == rightPreRelease)
             return 0;
@@ -81,7 +81,7 @@ internal class HttpManager
 
     public bool IsPreReleaseVersion(Version version)
     {
-        return TryGetVersionInfo(version, out var info) ? info.PreRelease != 0 : version.Revision > 0;
+        return TryGetVersionInfo(version, out VersionInfo info) ? info.PreRelease != 0 : version.Revision > 0;
     }
 
     public CoroutineHandle LoadVersions()
@@ -117,9 +117,9 @@ internal class HttpManager
             return;
         }
 
-        foreach (var version in Versions)
+        foreach (VersionInfo version in Versions)
         {
-            if (!Version.TryParse(version.Name, out var parsed))
+            if (!Version.TryParse(version.Name, out Version parsed))
                 continue;
 
             if (CompareReleases(parsed, LatestVersion) > 0)
@@ -142,7 +142,7 @@ internal class HttpManager
     /// </summary>
     private void LoadLatestVersionFallback(HttpResponse response)
     {
-        var answer = response.Body;
+        string answer = response.Body;
 
         try
         {
@@ -172,13 +172,13 @@ internal class HttpManager
     public bool TryGetVersionInfo(Version version, out VersionInfo info)
     {
         info = Versions.FirstOrDefault(v =>
-            Version.TryParse(v.Name, out var parsed) && CompareReleases(parsed, version) is 0);
+            Version.TryParse(v.Name, out Version parsed) && CompareReleases(parsed, version) is 0);
         return info is not null;
     }
 
     private Version ResolveChannelTarget()
     {
-        var target = LatestStableVersion;
+        Version target = LatestStableVersion;
 
         if (IsPreRelease && CompareReleases(LatestPreRelease, target) > 0)
             target = LatestPreRelease;
@@ -192,15 +192,15 @@ internal class HttpManager
     /// </summary>
     public Version GetUpdateTarget()
     {
-        var target = ResolveChannelTarget();
+        Version target = ResolveChannelTarget();
         return CompareReleases(target, Plugin.Singleton.Version) > 0 ? target : null;
     }
 
     public string GetDownloadHint(Version version)
     {
-        TryGetVersionInfo(version, out var info);
+        TryGetVersionInfo(version, out VersionInfo info);
 
-        var link = string.IsNullOrWhiteSpace(info?.SourceLink) ? null : info.SourceLink.Trim();
+        string link = string.IsNullOrWhiteSpace(info?.SourceLink) ? null : info.SourceLink.Trim();
 
         return info?.Source?.Trim().ToLowerInvariant() switch
         {

@@ -10,27 +10,26 @@ internal sealed class RoundSnapshot
 {
     private readonly Dictionary<int, TeamIdentity> _byPlayer = new();
 
-    private RoundSnapshot()
-    {
-    }
-
     public Dictionary<TeamIdentity, int> Counts { get; } = new();
 
     public int AliveCount { get; private set; }
+
+    private RoundSnapshot()
+    { }
 
     public static RoundSnapshot Create()
     {
         RoundSnapshot snapshot = new();
 
-        foreach (var player in Player.ReadyList)
+        foreach (Player player in Player.ReadyList)
         {
             if (player is null || !player.IsAlive)
                 continue;
 
-            var identity = GetIdentity(player);
+            TeamIdentity identity = GetIdentity(player);
 
             snapshot._byPlayer[player.PlayerId] = identity;
-            snapshot.Counts[identity] = snapshot.Counts.TryGetValue(identity, out var count) ? count + 1 : 1;
+            snapshot.Counts[identity] = snapshot.Counts.TryGetValue(identity, out int count) ? count + 1 : 1;
             snapshot.AliveCount++;
         }
 
@@ -48,15 +47,15 @@ internal sealed class RoundSnapshot
 
     private static TeamIdentity GetIdentity(Player player)
     {
-        if (!SummonedCustomRole.TryGet(player, out var summoned) || summoned?.Role is null)
+        if (!SummonedCustomRole.TryGet(player, out SummonedCustomRole summoned) || summoned?.Role is null)
             return TeamIdentity.Vanilla(player.Team);
 
-        var customTeam = GetCustomTeamName(summoned);
+        string customTeam = GetCustomTeamName(summoned);
 
         if (customTeam is not null)
             return TeamIdentity.Custom(customTeam);
 
-        var roleTeam = summoned.Role.Role.GetTeam();
+        Team roleTeam = summoned.Role.Role.GetTeam();
 
         return TeamIdentity.Vanilla(summoned.Role.Team is { } fakeTeam && fakeTeam != roleTeam ? fakeTeam : roleTeam);
     }
@@ -66,7 +65,7 @@ internal sealed class RoundSnapshot
         if (!summoned.TryGetModule(out CustomTeam module))
             return null;
 
-        var name = module.TryGetStringValue("team");
+        string name = module.TryGetStringValue("team");
         return string.IsNullOrWhiteSpace(name) ? null : name.Trim();
     }
 }

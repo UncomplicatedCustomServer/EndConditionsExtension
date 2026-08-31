@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using EndConditionsExtension.Elements;
 using EndConditionsExtension.Manager;
 using EndConditionsExtension.Structures;
 using LabApi.Events.Arguments.ServerEvents;
 using LabApi.Features.Wrappers;
+using PlayerRoles;
 using UncomplicatedCustomRoles.API.Features;
 
 namespace EndConditionsExtension;
@@ -13,24 +16,24 @@ internal class EventHandler
 
     public static void OnRoundEnding(RoundEndingEventArgs ev)
     {
-        var conditions = Plugin.Singleton?.Config.EndConditions;
+        Dictionary<int, EndCondition> conditions = Plugin.Singleton?.Config.EndConditions;
 
         if (conditions is null || conditions.Count == 0 || SummonedCustomRole.List.IsEmpty)
             return;
 
         RoundSnapshot snapshot = null;
-        var hasWinner = false;
-        var winnerPriority = int.MinValue;
-        var winningTeam = RoundSummary.LeadingTeam.Draw;
+        bool hasWinner = false;
+        int winnerPriority = int.MinValue;
+        RoundSummary.LeadingTeam winningTeam = RoundSummary.LeadingTeam.Draw;
 
-        foreach (var summoned in SummonedCustomRole.List.Values)
+        foreach (SummonedCustomRole summoned in SummonedCustomRole.List.Values)
         {
-            var player = summoned?.Player;
+            Player player = summoned?.Player;
 
             if (player is null || summoned.Role is null || !player.IsAlive)
                 continue;
 
-            if (!conditions.TryGetValue(summoned.Role.Id, out var condition) || condition is null)
+            if (!conditions.TryGetValue(summoned.Role.Id, out EndCondition condition) || condition is null)
                 continue;
 
             snapshot ??= RoundSnapshot.Create();
@@ -73,15 +76,15 @@ internal class EventHandler
 
     private static bool Evaluate(Player player, IEndCondition condition, RoundSnapshot snapshot)
     {
-        if (!snapshot.TryGetIdentity(player, out var own))
+        if (!snapshot.TryGetIdentity(player, out TeamIdentity own))
             return true;
 
-        var hasLimits = condition.RemainingTeams is { Count: > 0 } ||
-                        condition.RemainingCustomTeams is { Count: > 0 };
-        var ownCount = 0;
-        var othersCount = 0;
+        bool hasLimits = condition.RemainingTeams is { Count: > 0 } ||
+                         condition.RemainingCustomTeams is { Count: > 0 };
+        int ownCount = 0;
+        int othersCount = 0;
 
-        foreach (var pair in snapshot.Counts)
+        foreach (KeyValuePair<TeamIdentity, int> pair in snapshot.Counts)
         {
             if (pair.Key.Equals(own))
             {
@@ -97,7 +100,7 @@ internal class EventHandler
             if (condition.MustRemainOnlyOneTeam)
                 return false;
 
-            if (hasLimits && (!TryGetLimit(condition, pair.Key, out var limit) || pair.Value > limit))
+            if (hasLimits && (!TryGetLimit(condition, pair.Key, out int limit) || pair.Value > limit))
                 return false;
         }
 
@@ -112,7 +115,7 @@ internal class EventHandler
         if (identity.IsCustom || condition.IgnoredTeams is not { Count: > 0 })
             return false;
 
-        foreach (var t in condition.IgnoredTeams)
+        foreach (Team t in condition.IgnoredTeams)
             if (t == identity.Team)
                 return true;
 
@@ -130,7 +133,7 @@ internal class EventHandler
         if (condition.RemainingCustomTeams is null)
             return false;
 
-        foreach (var pair in condition.RemainingCustomTeams)
+        foreach (KeyValuePair<string, int> pair in condition.RemainingCustomTeams)
         {
             if (!string.Equals(pair.Key?.Trim(), identity.CustomTeam, StringComparison.OrdinalIgnoreCase))
                 continue;

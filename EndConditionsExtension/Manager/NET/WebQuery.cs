@@ -20,7 +20,7 @@ internal static class WebQuery
         {
             request.timeout = 10;
 
-            if (!TrySend(request, out var error))
+            if (!TrySend(request, out string error))
             {
                 Answer(callback, new HttpResponse(0, null, error));
                 yield break;

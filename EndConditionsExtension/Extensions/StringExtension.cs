@@ -33,15 +33,15 @@ internal static class StringExtension
             return HttpStatusCode.Unused;
         }
 
-        var root = doc.RootElement;
+        JsonElement root = doc.RootElement;
 
-        if (root.TryGetProperty("message", out var messageElement))
+        if (root.TryGetProperty("message", out JsonElement messageElement))
         {
             message = messageElement.GetString();
             LogManager.Debug($"Extracted message: {message}");
         }
 
-        if (root.TryGetProperty("status", out var status) &&
+        if (root.TryGetProperty("status", out JsonElement status) &&
             Enum.TryParse(status.ToString(), out HttpStatusCode statusCode))
         {
             LogManager.Debug($"Extracted status code: {statusCode}");
