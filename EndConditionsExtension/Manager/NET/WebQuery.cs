@@ -44,8 +44,7 @@ internal static class WebQuery
         catch (Exception e)
         {
             error = e.Message;
-            LogManager.Debug(
-                $"Failed to send the {request.method} request to {request.url} - {e.GetType().FullName}: {e.Message}");
+            LogManager.Debug($"Failed to send the {request.method} request to {request.url} - {e.GetType().FullName}: {e.Message}");
             return false;
         }
     }
@@ -54,8 +53,7 @@ internal static class WebQuery
     {
         try
         {
-            return new HttpResponse(request.responseCode, request.downloadHandler?.text,
-                string.IsNullOrEmpty(request.error) ? null : request.error);
+            return new HttpResponse(request.responseCode, request.downloadHandler?.text, string.IsNullOrEmpty(request.error) ? null : request.error);
         }
         catch (Exception e)
         {

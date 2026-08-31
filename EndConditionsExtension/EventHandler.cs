@@ -40,8 +40,7 @@ internal class EventHandler
 
             if (!Evaluate(player, condition, snapshot))
             {
-                LogManager.Debug(
-                    $"The round can't end: the condition of the CustomRole {summoned.Role.Id} [{summoned.Role.Name}] of {player.Nickname} is not met.");
+                LogManager.Debug($"The round can't end: the condition of the CustomRole {summoned.Role.Id} [{summoned.Role.Name}] of {player.Nickname} is not met.");
                 ev.IsAllowed = false;
                 return;
             }
@@ -65,12 +64,8 @@ internal class EventHandler
     {
         if (_welcomeShown) return;
         _welcomeShown = true;
-        LogManager.Info(
-            $"Thanks for using {Plugin.Singleton.Name} v{Plugin.Singleton.Version} by {Plugin.Singleton.Author}!",
-            ConsoleColor.Blue);
-        LogManager.Info(
-            "To receive support and to stay up-to-date, join our official Discord server: https://discord.gg/5StRGu8EJV",
-            ConsoleColor.DarkYellow);
+        LogManager.Info($"Thanks for using {Plugin.Singleton.Name} v{Plugin.Singleton.Version} by {Plugin.Singleton.Author}!", ConsoleColor.Blue);
+        LogManager.Info("To receive support and to stay up-to-date, join our official Discord server: https://discord.gg/5StRGu8EJV", ConsoleColor.DarkYellow);
     }
 
 
@@ -79,8 +74,7 @@ internal class EventHandler
         if (!snapshot.TryGetIdentity(player, out TeamIdentity own))
             return true;
 
-        bool hasLimits = condition.RemainingTeams is { Count: > 0 } ||
-                         condition.RemainingCustomTeams is { Count: > 0 };
+        bool hasLimits = condition.RemainingTeams is { Count: > 0 } || condition.RemainingCustomTeams is { Count: > 0 };
         int ownCount = 0;
         int othersCount = 0;
 
@@ -127,8 +121,7 @@ internal class EventHandler
         limit = 0;
 
         if (!identity.IsCustom)
-            return condition.RemainingTeams is not null &&
-                   condition.RemainingTeams.TryGetValue(identity.Team, out limit);
+            return condition.RemainingTeams is not null && condition.RemainingTeams.TryGetValue(identity.Team, out limit);
 
         if (condition.RemainingCustomTeams is null)
             return false;

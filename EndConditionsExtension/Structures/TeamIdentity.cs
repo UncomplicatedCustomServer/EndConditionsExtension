@@ -30,8 +30,7 @@ internal readonly struct TeamIdentity : IEquatable<TeamIdentity>
     public bool Equals(TeamIdentity other)
     {
         if (IsCustom || other.IsCustom)
-            return IsCustom && other.IsCustom &&
-                   string.Equals(CustomTeam, other.CustomTeam, StringComparison.OrdinalIgnoreCase);
+            return IsCustom && other.IsCustom && string.Equals(CustomTeam, other.CustomTeam, StringComparison.OrdinalIgnoreCase);
 
         return Team == other.Team;
     }

@@ -66,15 +66,12 @@ internal class Plugin : Plugin<Config>
 
             if (condition.MaxPlayersToEnd < 0)
             {
-                LogManager.Warn(
-                    $"'max_players_to_end' of the CustomRole {pair.Key} is negative, it has been clamped to 0!");
+                LogManager.Warn($"'max_players_to_end' of the CustomRole {pair.Key} is negative, it has been clamped to 0!");
                 condition.MaxPlayersToEnd = 0;
             }
 
-            if (condition.MustRemainOnlyOneTeam &&
-                (condition.RemainingTeams is { Count: > 0 } || condition.RemainingCustomTeams is { Count: > 0 }))
-                LogManager.Warn(
-                    $"The CustomRole {pair.Key} has 'must_remain_only_one_team' enabled, every remaining team limit will be ignored!");
+            if (condition.MustRemainOnlyOneTeam && (condition.RemainingTeams is { Count: > 0 } || condition.RemainingCustomTeams is { Count: > 0 }))
+                LogManager.Warn($"The CustomRole {pair.Key} has 'must_remain_only_one_team' enabled, every remaining team limit will be ignored!");
         }
     }
 }

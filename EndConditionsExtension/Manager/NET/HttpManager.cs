@@ -8,8 +8,7 @@ namespace EndConditionsExtension.Manager.NET;
 
 internal class HttpManager
 {
-    private const string GitHubReleases =
-        "https://github.com/UncomplicatedCustomServer/EndConditionsExtension/releases";
+    private const string GitHubReleases = "https://github.com/UncomplicatedCustomServer/EndConditionsExtension/releases";
 
     private const string GitHubLatestRelease = GitHubReleases + "/latest";
 
@@ -61,8 +60,7 @@ internal class HttpManager
 
     internal static int CompareReleases(Version left, Version right)
     {
-        int release = new Version(left.Major, left.Minor, Math.Max(left.Build, 0))
-            .CompareTo(new Version(right.Major, right.Minor, Math.Max(right.Build, 0)));
+        int release = new Version(left.Major, left.Minor, Math.Max(left.Build, 0)).CompareTo(new Version(right.Major, right.Minor, Math.Max(right.Build, 0)));
 
         if (release != 0)
             return release;
@@ -99,8 +97,7 @@ internal class HttpManager
         yield return Timing.WaitUntilDone(WebQuery.Get($"{Endpoint}/{Prefix}/versions", LoadVersionList));
 
         if (Versions.Count is 0)
-            yield return Timing.WaitUntilDone(WebQuery.Get($"{Endpoint}/{Prefix}/versions/latest@text/plain",
-                LoadLatestVersionFallback));
+            yield return Timing.WaitUntilDone(WebQuery.Get($"{Endpoint}/{Prefix}/versions/latest@text/plain", LoadLatestVersionFallback));
     }
 
     private void LoadVersionList(HttpResponse response)
@@ -111,8 +108,7 @@ internal class HttpManager
         }
         catch
         {
-            LogManager.Debug(
-                $"Failed to load the version list from the UCS cloud ({response.Reason}): '{response.Body}'");
+            LogManager.Debug($"Failed to load the version list from the UCS cloud ({response.Reason}): '{response.Body}'");
             Versions = [];
             return;
         }
@@ -171,8 +167,7 @@ internal class HttpManager
     /// </summary>
     public bool TryGetVersionInfo(Version version, out VersionInfo info)
     {
-        info = Versions.FirstOrDefault(v =>
-            Version.TryParse(v.Name, out Version parsed) && CompareReleases(parsed, version) is 0);
+        info = Versions.FirstOrDefault(v => Version.TryParse(v.Name, out Version parsed) && CompareReleases(parsed, version) is 0);
         return info is not null;
     }
 
@@ -206,8 +201,7 @@ internal class HttpManager
         {
             "discord" => $"Download it from our Discord server: {link ?? DiscordInvite}",
             "other" when link is not null => $"Download it from: {link}",
-            _ =>
-                $"Download it from GitHub: {link ?? (IsPreReleaseVersion(version) ? GitHubReleases : GitHubLatestRelease)}"
+            _ => $"Download it from GitHub: {link ?? (IsPreReleaseVersion(version) ? GitHubReleases : GitHubLatestRelease)}"
         };
     }
 

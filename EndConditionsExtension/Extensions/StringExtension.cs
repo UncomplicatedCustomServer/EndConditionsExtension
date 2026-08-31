@@ -41,8 +41,7 @@ internal static class StringExtension
             LogManager.Debug($"Extracted message: {message}");
         }
 
-        if (root.TryGetProperty("status", out JsonElement status) &&
-            Enum.TryParse(status.ToString(), out HttpStatusCode statusCode))
+        if (root.TryGetProperty("status", out JsonElement status) && Enum.TryParse(status.ToString(), out HttpStatusCode statusCode))
         {
             LogManager.Debug($"Extracted status code: {statusCode}");
             return statusCode;

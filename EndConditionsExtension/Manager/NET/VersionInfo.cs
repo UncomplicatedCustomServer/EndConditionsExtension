@@ -4,19 +4,7 @@ namespace EndConditionsExtension.Manager.NET;
 #nullable enable
 
 [method: JsonConstructor]
-internal class VersionInfo(
-    string name,
-    string source,
-    string? sourceLink,
-    string? customName,
-    int preRelease,
-    int forceDebug,
-    string message,
-    int recall,
-    string? recallTarget,
-    string? recallReason,
-    bool? recallImportant,
-    string hash)
+internal class VersionInfo(string name, string source, string? sourceLink, string? customName, int preRelease, int forceDebug, string message, int recall, string? recallTarget, string? recallReason, bool? recallImportant, string hash)
 {
     [JsonPropertyName("name")] public string Name { get; } = name;
 
