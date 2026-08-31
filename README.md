@@ -35,7 +35,7 @@ The same version manager used by UCR: on start the plugin asks the UCS cloud whe
 Just like UCR, everything is configured through a simple `yml` file - no code needed.
 
 ## Configuration
-The config file is created at `LabAPI/configs/<port>/EndConditionsExtension/config.yml` (or in `configs/global/...` if you load the plugin globally).
+The config file is created at `LabAPI/configs/<port>/EndConditionsExtension/config.yml`.
 
 ```yml
 # Do enable the debug (developer) mode?
